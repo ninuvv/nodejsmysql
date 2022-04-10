@@ -1,0 +1,37 @@
+
+const express=require("express");
+const { json } = require("express/lib/response");
+const Router=express.Router();
+const mysql=require("../connection")
+var Helper = require("../Helpers/userHelper")
+
+Router.get("/",(req,res)=>{
+    mysql.query("select * from company",(err,rows,fields)=>{
+        if(!err)
+        res.send(rows)
+        else throw err
+    })
+})
+
+Router.get("/fruits",(req,res)=>{
+    mysql.query("select * from fruits order by color",(err,rows,fields)=>{
+        if(!err)
+        res.send(rows)
+        else throw err
+    })
+})
+
+Router.get('/users/:companyid', (req, res) => {
+    let companyid =1// req.params.companyid
+    console.log(companyid)
+    Helper.getUsers(companyid).then((response)=>{
+        if(response){
+            res.send(response)
+        }
+    })
+    
+  
+  })
+  
+
+module.exports=Router
